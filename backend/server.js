@@ -5,8 +5,8 @@ const expressApp = express();
 const server = http.createServer(expressApp);
 
 expressApp.use((req,res) => {
-    res.send("hello");
-})
+    res.send("hello, request reçue");
+});
 
 expressApp('port', process.env.PORT || 3000);
 server.listen(process.env.PORT || 3000, () => console.log("Server started"));
