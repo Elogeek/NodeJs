@@ -1,25 +1,36 @@
 const http = require('http');
-const express = require('express');
-
-const expressApp = express();
+const expressApp = require('./experssApp');
 const server = http.createServer(expressApp);
 
-// First middleware (s'occupe de logger les requêtes entrantes par les users)
-expressApp.use((req,res,next) => {
-    console.log("request reçue => " + req.url)
-    next();
-});
+// Log error message and exit
+const logExit = msg => {
+    const bind = typeof server.address() === 'string' ? 'pipe' + server.address() : 'port' + port;
+    console.error(`${bind} ${msg}`);
+    process.exit(1);
+}
 
-// Second middleware (envoye une response au client)
-expressApp.use((req, res) => {
-    res.send("Hello word ! ");
-});
+// Server errors handling
+const errorHandler = error => {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
 
-// Three middleware (exécute un log une fois la requête finish)
-expressApp.use((req, res) => {
-    console.log("Code response: " + res.statusCode);
-    console.log("Request finish, response send user")
-});
+    switch (error.code) {
+        case "EACCES":
+            logExit("requires elevated privileges.");
+            break;
+        case "EADDRINUSE":
+            logExit("is already in use.");
+            break;
+        default:
+            throw error;
+    }
+}
 
-expressApp.set('port', process.env.PORT || 3000);
-server.listen(process.env.PORT || 3000, () => console.log("Server started"));
+server.on('error', errorHandler);
+
+// Normalisation du port, on s'assure d'avoir un port valide
+const portNormalizer = (port,defaultPort) => undefined !== port && !isNaN(parseInt(port)) ? parseInt(port) : defaultPort;
+const port = portNormalizer(process.env.PORT, 3000);
+expressApp.set('port', port);
+server.listen(port, () => console.log("Server started, listening port : " + port));
