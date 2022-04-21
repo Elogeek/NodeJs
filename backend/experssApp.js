@@ -15,8 +15,34 @@ expressApp.use((req,res,next) => {
 })
 
 // Envoye une response au client
-expressApp.use((req, res, next) => {
-    res.send("Hello word ! ");
+expressApp.get('/',(req, res, next) => {
+    const answer = {
+        message: "Hello word ! ",
+    }
+    res.json(answer);
+    next();
+});
+
+expressApp.get("/hello", (req, res, next) => {
+    res.json({coucou: "Coucou !"});
+    next();
+});
+
+expressApp.get("/hello/:name/:age?", (req, res, next) => {
+    const params = req.params;
+    const message = undefined === params.age ? `Hello ${req.params.name}` : `Hello ${req.params.name}, vous avez ${params.age} ans`;
+    res.json({coucou: message });
+    next();
+});
+
+// Handle 404
+expressApp.use(function (req, res, next){
+    if (!req.route) {
+        res
+            .status(404)
+            .end()
+        ;
+    }
     next();
 });
 
