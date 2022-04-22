@@ -66,8 +66,6 @@ class ProductsController {
       next();
     };
 
-
-
   /**
    * Edit a product into the mysql product table
    *
@@ -109,7 +107,6 @@ class ProductsController {
 
     next();
   };
-
 
   /**
    * Delete a product from the mysql product table
