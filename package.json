@@ -4,11 +4,9 @@
   "description": "",
   "main": "backend/server.js",
   "scripts": {
-    "start": "nodemon backend/server.js",
-    "test": "jest",
-    "build": "tsc",
-    "lint": "eslint",
     "server": "nodemon backend/server.js",
+    "watch": "webpack --watch --mode=development",
+    "build": "webpack --mode=production",
     "server-front": "http-server public/ -p 3001"
   },
   "keywords": [],
@@ -22,7 +20,18 @@
     "nodemon": "^2.0.15",
     "prettier": "^2.6.2",
     "mongoose": "^6.3.1",
-    "sequelize": "^6.19.0"
+    "sequelize": "^6.19.0",
+    "@babel/preset-env": "^7.16.11",
+    "babel-loader": "^8.2.4",
+    "bcrypt": "^5.0.1",
+    "css-loader": "^6.7.1",
+    "css-minimizer-webpack-plugin": "^3.4.1",
+    "jsonwebtoken": "^8.5.1",
+    "mini-css-extract-plugin": "^2.6.0",
+    "mongoose-unique-validator": "^3.0.0",
+    "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.1",
+    "webpack": "^5.72.0"
   },
   "devDependencies": {
     "webpack-cli": "^4.9.2"
